@@ -6,10 +6,12 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AppComponent } from './app.component';
 import { environment } from '../environments/environment';
 import { DbService } from './shared/db.service';
-import { HomeComponent } from './home/home.component';
+import { WindowComponent } from './chat/window/window.component';
+import { InputComponent } from './chat/input/input.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, WindowComponent, InputComponent, ChatComponent],
   imports: [
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
