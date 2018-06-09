@@ -1,5 +1,6 @@
 <div *ngFor="let message of messages">
   <div class="notice notice-success">
     <strong>{{ message.sender }}</strong> {{ message.body }}
+    <div class="timestamp">{{ message.timestamp | date:'short' }}</div>
   </div>
 </div>
