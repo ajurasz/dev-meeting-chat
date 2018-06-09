@@ -1,19 +1,33 @@
-export class Message {
-  constructor(
-    public id: string,
-    public sender: string,
-    public timestamp: Date,
-    public body: string
-  ) {}
+import { send } from 'q';
 
-  static sample(): Message {
-    return new Message('id', 'name', new Date(), 'message');
+export class Message {
+  readonly sender: string;
+  readonly timestamp: Date;
+  readonly body: string;
+  readonly id?: string;
+  constructor(message: IMessage) {
+    this.id = message.id;
+    this.sender = message.sender;
+    if (message.timestamp === undefined || message.timestamp === null) {
+      this.timestamp = new Date();
+    } else {
+      this.timestamp = new Date(message.timestamp);
+    }
+    this.body = message.body;
+  }
+
+  toWriteObject() {
+    return {
+      sender: this.sender,
+      body: this.body,
+      timestamp: this.timestamp.getTime()
+    };
   }
 }
 
 export interface IMessage {
-  id: string;
   sender: string;
   timestamp: number;
   body: string;
+  id?: string;
 }

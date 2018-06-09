@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Observable } from 'rxjs';
-import { map, flatMap } from 'rxjs/operators';
+import { catchError, delay, map, tap } from 'rxjs/operators';
+import { of, from, defer } from 'rxjs';
 import { Message, IMessage } from './message.model';
 
 @Injectable()
 export class DbService {
   constructor(private db: AngularFirestore) {}
+
   messages(): Observable<Message[]> {
     return (
       this.db
-        // .collection('messages')
         .collection('messages', ref => ref.orderBy('timestamp', 'desc'))
         .stateChanges(['added'])
         .pipe(
@@ -19,15 +20,25 @@ export class DbService {
               const id = value.payload.doc.id;
               const payload = value.payload.doc.data() as IMessage;
 
-              return new Message(
-                id,
-                payload.sender,
-                new Date(payload.timestamp),
-                payload.body
-              );
+              return new Message({
+                ...payload,
+                id
+              });
             });
           })
         )
+    );
+  }
+
+  add(message: Message): Observable<Boolean> {
+    return defer(() => from(this.db.collection('messages').add(message.toWriteObject()))
+    .pipe(
+      delay(1000),
+      map(_ => true),
+      catchError(err => {
+        console.error('Failed to add', err);
+        return of(false);
+      })
     );
   }
 }
