@@ -5,12 +5,12 @@
 export const environment = {
   production: false,
   firebase: {
-    apiKey: 'AIzaSyDtfd3S2MgPdOfYZtH2AkbzV5--pBMFAf8',
-    authDomain: 'dev-meetings-chat.firebaseapp.com',
-    databaseURL: 'https://dev-meetings-chat.firebaseio.com',
-    projectId: 'dev-meetings-chat',
-    storageBucket: 'dev-meetings-chat.appspot.com',
-    messagingSenderId: '733168859783'
+    apiKey: '',
+    authDomain: '',
+    databaseURL: '',
+    projectId: '',
+    storageBucket: '',
+    messagingSenderId: ''
   }
 };
 
